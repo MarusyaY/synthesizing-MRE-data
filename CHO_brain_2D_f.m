@@ -28,13 +28,11 @@ plane = 1;
 scheme = 1; 
 
 
-%download the data
-V=load_nii(['./Data/U01_UDEL_000' num_im '_01_v3/U01_UDEL_000' num_im '_01_MRE_AP_50Hz/U01_UDEL_000' num_im '_01_MRE_AP_50Hz_props_shear_real.nii.gz']);
-DR=load_nii(['./Data/U01_UDEL_000' num_im '_01_v3/U01_UDEL_000' num_im '_01_MRE_AP_50Hz/U01_UDEL_000' num_im '_01_MRE_AP_50Hz_props_shear_imag.nii.gz']);
-Curl_re = load_nii(['./Data/U01_UDEL_000' num_im '_01_v3/U01_UDEL_000' num_im '_01_MRE_AP_50Hz/U01_UDEL_000' num_im '_01_MRE_AP_50Hz_curl_re.nii.gz']);
-Curl_im = load_nii(['./Data/U01_UDEL_000' num_im '_01_v3/U01_UDEL_000' num_im '_01_MRE_AP_50Hz/U01_UDEL_000' num_im '_01_MRE_AP_50Hz_curl_im.nii.gz']);
-OR_Re=load_nii(['./Data/U01_UDEL_000' num_im '_01_v3/U01_UDEL_000' num_im '_01_MRE_AP_50Hz/U01_UDEL_000' num_im '_01_MRE_AP_50Hz_disp_re.nii.gz']);
-OR_Im=load_nii(['./Data/U01_UDEL_000' num_im '_01_v3/U01_UDEL_000' num_im '_01_MRE_AP_50Hz/U01_UDEL_000' num_im '_01_MRE_AP_50Hz_disp_im.nii.gz']);
+%download the data (no data provided) (example path)
+V=load_nii(['./Data/sub' num_im '_50Hz_shear_real.nii.gz']); %real part of complex shear modulus
+DR=load_nii(['./Data/sub' num_im '_50Hz_shear_imag.nii.gz']); %imaginary part of complex shear modulus
+OR_Re=load_nii('./Data/path'); %reference displacement - real part
+OR_Im=load_nii('./Data/path'); %reference displacement - imaginary part
 
 %set according to the data description
 dx = 1.5e-3;        % grid point spacing in the x direction [m]
@@ -56,11 +54,6 @@ if plane == 1
     orig_im_3=OR_Im.img(donwsampx1:donwsampx2,donwsampy1:donwsampy2,sliceselect,3);
     orig_im_2=OR_Im.img(donwsampx1:donwsampx2,donwsampy1:donwsampy2,sliceselect,2);
     orig_im_1=OR_Im.img(donwsampx1:donwsampx2,donwsampy1:donwsampy2,sliceselect,1);
-    
-    curl_re_1=Curl_re.img(donwsampx1:donwsampx2,donwsampy1:donwsampy2,sliceselect,1);
-    %curl_im=Curl_im.img(donwsampx1:donwsampx2,donwsampy1:donwsampy2,sliceselect,1);
-    curl_re_2=Curl_re.img(donwsampx1:donwsampx2,donwsampy1:donwsampy2,sliceselect,2);
-    curl_re_3=Curl_re.img(donwsampx1:donwsampx2,donwsampy1:donwsampy2,sliceselect,3);
 else
     %% xz (perpendicular to left-right plane)
     sliceselect=80;
@@ -69,11 +62,6 @@ else
     % cropp images
     Slice=squeeze(V.img(sliceselect,donwsampy1:donwsampy2,:))';
     Slice_im=squeeze(DR.img(sliceselect,donwsampy1:donwsampy2,:))';
-     
-    curl_re_1=squeeze(Curl_re.img(sliceselect,donwsampy1:donwsampy2,:,1))';
-    %curl_im=Curl_im.img(donwsampx1:donwsampx2,donwsampy1:donwsampy2,sliceselect,1);
-    curl_re_2=squeeze(Curl_re.img(sliceselect,donwsampy1:donwsampy2,:,2))';
-    curl_re_3=squeeze(Curl_re.img(sliceselect,donwsampy1:donwsampy2,:,3))';
     
     orig_re_1=squeeze(OR_Re.img(sliceselect,donwsampy1:donwsampy2,:,1))';
     orig_re_2=squeeze(OR_Re.img(sliceselect,donwsampy1:donwsampy2,:,2))';
